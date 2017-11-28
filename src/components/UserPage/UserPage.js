@@ -11,10 +11,12 @@ export default class UserPage extends PureComponent {
   render() {
     const {isFetching, user, followers, login} = this.props;
 
+    if (isFetching === false && user === null) return <p>User not found</p>;
+
+    if (isFetching) return <Spinner size="64px" color="fuchsia" gap={5} />;
+
     return (
       <div className="user_page">
-        {isFetching === true} && <Spinner />
-        {isFetching === false && user === null} && (<p>User not found</p>)
         <div className="user_page__info">
           <div className="user_info__avatar">
             <img src="" alt="" />
@@ -25,7 +27,7 @@ export default class UserPage extends PureComponent {
             <p>Public repos: </p>
           </div>
         </div>
-        <Followers login={login} />
+        <Followers login={login} followers={followers} />
       </div>
     );
   }

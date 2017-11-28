@@ -55,13 +55,33 @@ describe('Сага authFlow', () => {
     });
 
     it('2. Эфект call getTokenFromLocalStorage', () => {
-      expect(saga.next({payload: token}).value).toEqual(
-        call(getTokenFromLocalStorage)
-      );
+      expect(saga.next().value).toEqual(call(getTokenFromLocalStorage));
     });
 
     it('3. Эфект put with authorize', () => {
-      // expect(saga.next().value).toEqual(put(authorize()));
+      expect(saga.next(token).value).toEqual(put(authorize()));
+    });
+
+    it('4. Эфект call(setTokenApi, token) где токен, который получен из прошлого шага', () => {
+      expect(saga.next({payload: token}).value).toEqual(
+        call(setTokenApi, token)
+      );
+    });
+
+    it('5. Эфект call setTokenToLocalStorage', () => {
+      expect(saga.next().value).toEqual(call(setTokenToLocalStorage, token));
+    });
+
+    it('6. Эфект take logout', () => {
+      expect(saga.next().value).toEqual(take(logout));
+    });
+
+    it('7. Эфект call removeTokenFromLocalStorage', () => {
+      expect(saga.next().value).toEqual(call(removeTokenFromLocalStorage));
+    });
+
+    it('8. Эфект call clearTokenApi', () => {
+      expect(saga.next().value).toEqual(call(clearTokenApi));
     });
   });
 });

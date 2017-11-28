@@ -12,6 +12,7 @@ export function* authFlow() {
   while (true) {
     const isAuthorized = yield select(getIsAuthorized);
     const localStorageToken = yield call(getTokenFromLocalStorage);
+
     let token;
 
     if (!isAuthorized) {
