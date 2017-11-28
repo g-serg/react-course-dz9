@@ -1,11 +1,11 @@
 import {authorize, logout} from '../actions/auth';
-import {take, put, call, select} from 'redux-saga/effects';
+import {take, put, call, select, fork} from 'redux-saga/effects';
 import {setTokenApi, clearTokenApi} from '../api';
 import {getIsAuthorized} from '../reducers/auth';
 import {
   getTokenFromLocalStorage,
   setTokenToLocalStorage,
-  removeTokenFromLocalStorage,
+  removeTokenFromLocalStorage
 } from '../localStorage';
 
 export function* authFlow() {
@@ -30,4 +30,8 @@ export function* authFlow() {
     yield call(removeTokenFromLocalStorage);
     yield call(clearTokenApi);
   }
+}
+
+export function* setTokenWatch() {
+  yield fork(authFlow);
 }
