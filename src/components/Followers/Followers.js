@@ -19,8 +19,7 @@ export class Followers extends PureComponent {
   }
 
   render() {
-    const {isFetching, ids, error} = this.props,
-      {followers} = ids || {};
+    const {isFetching, ids, error} = this.props;
 
     if (isFetching)
       return (
@@ -33,11 +32,11 @@ export class Followers extends PureComponent {
       return <p style={{color: 'red'}}>Ошибка! {error}</p>;
     }
 
-    if (!isFetching && !followers) return <div />;
+    if (!isFetching && !ids) return <div />;
 
     return (
       <div className="followers">
-        {followers.map(({id, login, avatar_url}) => (
+        {ids.map(({id, login, avatar_url}) => (
           <Follower key={id} login={login} img={avatar_url} />
         ))}
       </div>
@@ -45,11 +44,11 @@ export class Followers extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  isFetching: getIsFetching(state),
-  isFetched: getIsFetched(state),
-  ids: getIDs(state),
-  error: getError(state)
+const mapStateToProps = store => ({
+  isFetching: getIsFetching(store),
+  isFetched: getIsFetched(store),
+  ids: getIDs(store),
+  error: getError(store)
 });
 
 const mapDispatchToProps = {

@@ -6,9 +6,7 @@ import Follower from '../../Follower';
 
 describe('Component Followers', () => {
   const wrapper = shallow(<Followers />);
-  const ids = {
-    followers: [1, 2, 3].map(f => ({id: f, login: `user${f}`}))
-  };
+  const ids = [1, 2, 3].map(f => ({id: f, login: `user${f}`}));
 
   describe('check presence of instance methods', () => {
     it('have componentDidMount method', () => {
@@ -22,7 +20,7 @@ describe('Component Followers', () => {
       expect(wrapper.find(Spinner)).toHaveLength(1);
     });
 
-    it('should be Follower equal {ids.followers}', () => {
+    it('should be number Follower equal ids.length', () => {
       const wrapper = shallow(<Followers ids={ids} />);
       expect(wrapper.find(Follower)).toHaveLength(3);
     });

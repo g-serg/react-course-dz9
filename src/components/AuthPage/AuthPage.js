@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
-import {setToken} from '../../actions/auth';
-import {getToken} from '../../reducers/auth';
+import {authorize} from '../../actions/auth';
+import {getToken, getIsAuthorized} from '../../reducers/auth';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import './AuthPage.css';
@@ -17,16 +17,17 @@ export class AuthPage extends PureComponent {
   handleKeyDown = event => {
     if (event.keyCode === 13) {
       const {value} = this.state;
-      const {setToken} = this.props;
+      const {authorize} = this.props;
 
       if (value.length) {
-        setToken(value);
+        authorize(value);
       }
     }
   };
 
   render() {
     const {value} = this.state;
+
     const {token} = this.props;
 
     if (token !== null) return <Redirect to="/" />;
@@ -54,12 +55,13 @@ export class AuthPage extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  token: getToken(state)
+const mapStateToProps = store => ({
+  token: getToken(store),
+  isAuthorized: getIsAuthorized(store)
 });
 
 const mapDispatchToProps = {
-  setToken
+  authorize
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthPage);

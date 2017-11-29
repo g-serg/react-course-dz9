@@ -12,33 +12,24 @@ import {connect} from 'react-redux';
 import './UserPage.css';
 
 export class UserPage extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    const {match} = this.props;
-    this.login = match && match.params.name;
-  }
-
   componentDidMount() {
-    const {fetchUserRequest} = this.props;
+    const {fetchUserRequest, match} = this.props;
 
-    fetchUserRequest && fetchUserRequest(this.login);
+    if (fetchUserRequest && match) {
+      fetchUserRequest(match.params.name);
+    }
   }
 
-  componentWillReceiveProps() {
-    const {match, fetchUserRequest} = this.props;
-    var newLogin = match && match.params.name;
-
-    if (newLogin !== this.login) {
-      this.login = newLogin;
-      fetchUserRequest && fetchUserRequest(this.login);
+  componentWillReceiveProps(nextProps) {
+    if (this.props.match.params.name !== nextProps.match.params.name) {
+      const {fetchUserRequest} = this.props;
+      const {name} = nextProps.match.params;
+      fetchUserRequest(name);
     }
   }
 
   render() {
-    const {isFetching, data, error} = this.props,
-      login = this.login,
-      {avatar_url, followers, public_repos} = data || {};
+    const {isFetching, data, error, match} = this.props;
 
     if (isFetching)
       return (
@@ -50,6 +41,9 @@ export class UserPage extends PureComponent {
     if (error) return <p style={{color: 'red'}}>Ошибка! {error}</p>;
 
     if (!isFetching && !data) return <p>User not found</p>;
+
+    const {avatar_url, followers, public_repos} = data;
+    const login = match && match.params.name;
 
     return (
       <div className="user_page">
@@ -69,11 +63,11 @@ export class UserPage extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  isFetching: getIsFetching(state),
-  isFetched: getIsFetched(state),
-  data: getData(state),
-  error: getError(state)
+const mapStateToProps = store => ({
+  isFetching: getIsFetching(store),
+  isFetched: getIsFetched(store),
+  data: getData(store),
+  error: getError(store)
 });
 
 const mapDispatchToProps = {
