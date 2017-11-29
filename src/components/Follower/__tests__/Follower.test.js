@@ -1,40 +1,38 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import Follower from '../../Follower';
 import {shallow} from 'enzyme';
 
 describe('Component Follower', () => {
-  const wrapper = shallow(<Follower />);
   const props = {
     img: 'img_url',
     login: 'user_login'
   };
+  const wrapper = shallow(<Follower {...props} />);
 
   describe('render', () => {
-    it('should be .followers>.followers_avatar>img.src = {user.img}', () => {
-      const wrapper = shallow(<Follower img={props.img} />);
+    it('should be .follower_item>.follower_item__avatar>img.src = {props.img}', () => {
       expect(
         wrapper
-          .find('.followers>.followers_avatar>img')
+          .find('.follower_item>.follower_item__avatar>img')
           .at(0)
           .props()['src']
       ).toEqual(props.img);
     });
 
-    it('should be .followers>.followers_url>a.href = /user/{user.login}', () => {
-      const wrapper = shallow(<Follower login={props.login} />);
+    it('should be Link with to = /user/{props.login}', () => {
       expect(
         wrapper
-          .find('.followers>.followers_url>a')
+          .find(Link)
           .at(0)
-          .props()['href']
+          .props()['to']
       ).toEqual('/user/' + props.login);
     });
 
-    it('should be .followers>.followers_url h3 = /user/{user.login}', () => {
-      const wrapper = shallow(<Follower login={props.login} />);
+    it('should be .follower_item>.follower_item__url h3 = /user/{props.login}', () => {
       expect(
         wrapper
-          .find('.followers>.followers_url h3')
+          .find('.follower_item>.follower_item__url h3')
           .at(0)
           .text()
       ).toEqual(props.login);

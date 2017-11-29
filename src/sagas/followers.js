@@ -19,6 +19,6 @@ function* onFetchFollowerWatch() {
   yield takeLatest(fetchFollowersRequest, fetchFollowersSaga);
 }
 
-export default function*() {
+export function* fetchFollowersWatch() {
   yield fork(onFetchFollowerWatch);
 }

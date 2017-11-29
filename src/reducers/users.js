@@ -4,7 +4,7 @@ import {
   fetchUserFailure
 } from '../actions/users';
 import {combineReducers} from 'redux';
-import {handleAction, handleActions} from 'redux-actions';
+import {handleActions} from 'redux-actions';
 
 const isFetching = handleActions(
   {
@@ -24,15 +24,19 @@ const isFetched = handleActions(
   false
 );
 
-const data = handleAction(
-  fetchUserSuccess,
-  (state, action) => action.payload,
-  {}
+const data = handleActions(
+  {
+    [fetchUserRequest]: () => null,
+    [fetchUserSuccess]: (state, action) => action.payload.data
+  },
+  null
 );
 
-const error = handleAction(
-  fetchUserFailure,
-  (state, action) => action.error,
+const error = handleActions(
+  {
+    [fetchUserRequest]: () => null,
+    [fetchUserFailure]: (state, action) => action.error
+  },
   null
 );
 
@@ -43,7 +47,7 @@ export default combineReducers({
   error
 });
 
-export const getIsFetching = state => state.isFetching;
-export const getIsFetched = state => state.isFetched;
-export const getResult = state => ({...state.data});
-export const getError = state => state.error;
+export const getIsFetching = ({users}) => users.isFetching;
+export const getIsFetched = ({users}) => users.isFetched;
+export const getData = ({users}) => (users.data ? {...users.data} : null);
+export const getError = ({users}) => users.error;

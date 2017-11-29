@@ -24,10 +24,12 @@ const isFetched = handleActions(
   false
 );
 
-const ids = handleAction(
-  fetchFollowersSuccess,
-  (state, action) => action.payload,
-  {}
+const ids = handleActions(
+  {
+    [fetchFollowersRequest]: () => [],
+    [fetchFollowersSuccess]: (state, action) => action.payload.data
+  },
+  []
 );
 
 const error = handleAction(
@@ -43,7 +45,7 @@ export default combineReducers({
   error
 });
 
-export const getIsFetching = state => state.isFetching;
-export const getIsFetched = state => state.isFetched;
-export const getIDs = state => ({...state.ids});
-export const getError = state => state.error;
+export const getIsFetching = ({followers}) => followers.isFetching;
+export const getIsFetched = ({followers}) => followers.isFetched;
+export const getIDs = ({followers}) => [...followers.ids];
+export const getError = ({followers}) => followers.error;

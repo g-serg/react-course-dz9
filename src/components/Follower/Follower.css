@@ -1,10 +1,10 @@
-.followers {
+.follower_item {
   display: flex;
   flex-direction: row;
   padding: 30px;
 }
 
-.followers_avatar {
+.follower_item__avatar {
   width: 100px;
   height: 100px;
   padding: 10px;
@@ -13,13 +13,19 @@
   border: 1px solid #eee;
 }
 
-.followers_avatar img {
+.follower_item__avatar img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-.followers_url h3 {
+.follower_item__url {
   padding-left: 20px;
   text-align: left;
+}
+
+.follower_item__url h3 {
+  display: block;
+  font-size: 1.17em;
+  font-weight: bold;
 }

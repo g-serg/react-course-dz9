@@ -10,12 +10,14 @@ class PrivateRoute extends PureComponent {
     return (
       <Route
         {...rest}
-        render={props => (token ? <Component {...props} /> : <Redirect to="/login" />)}
+        render={props =>
+          token ? <Component {...props} /> : <Redirect to="/login" />
+        }
       />
     );
   }
 }
 
-export default connect(state => ({
-  token: getToken(state),
+export default connect(store => ({
+  token: getToken(store)
 }))(PrivateRoute);

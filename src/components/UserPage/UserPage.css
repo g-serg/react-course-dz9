@@ -1,3 +1,10 @@
+.user_page {
+  margin: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .user_page .user_page__info {
   display: flex;
   flex-direction: row;
@@ -19,7 +26,6 @@
 }
 
 .user_info__login {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  padding-left: 20px;
+  text-align: left;
 }

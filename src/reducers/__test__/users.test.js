@@ -14,15 +14,15 @@ describe('reducer users', () => {
     it('isFetched === false', () => {
       expect(next.isFetched).toEqual(false);
     });
-    it('data === {}', () => {
-      expect(next.data).toEqual({});
+    it('data === null', () => {
+      expect(next.data).toEqual(null);
     });
     it('error === null', () => {
       expect(next.error).toEqual(null);
     });
   });
   describe('fetchUserSuccess must set', () => {
-    const payload = {data: 1};
+    const payload = {data: {user: 'user'}};
     const next = users(undefined, {type: fetchUserSuccess, payload});
     it('isFetching === false', () => {
       expect(next.isFetching).toEqual(false);
@@ -30,8 +30,8 @@ describe('reducer users', () => {
     it('isFetched === true', () => {
       expect(next.isFetched).toEqual(true);
     });
-    it('data === {data: 1}', () => {
-      expect(next.data).toEqual(payload);
+    it('data === payload.data', () => {
+      expect(next.data).toEqual(payload.data);
     });
     it('error === null', () => {
       expect(next.error).toEqual(null);
@@ -46,8 +46,8 @@ describe('reducer users', () => {
     it('isFetched === true', () => {
       expect(next.isFetched).toEqual(true);
     });
-    it('data === {}', () => {
-      expect(next.data).toEqual({});
+    it('data === null', () => {
+      expect(next.data).toEqual(null);
     });
     it('error === Error("error")', () => {
       expect(next.error).toEqual(error);

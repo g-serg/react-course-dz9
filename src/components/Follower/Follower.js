@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+import {Link} from 'react-router-dom';
 import './Follower.css';
 
 export default class Follower extends PureComponent {
@@ -6,14 +7,14 @@ export default class Follower extends PureComponent {
     const {login, img} = this.props;
 
     return (
-      <div className="followers">
-        <div className="followers_avatar">
+      <div className="follower_item">
+        <div className="follower_item__avatar">
           <img src={img} alt={login} />
         </div>
-        <div className="followers_url">
-          <a href={`/user/${login}`}>
+        <div className="follower_item__url">
+          <Link to={`/user/${login}`}>
             <h3>{login}</h3>
-          </a>
+          </Link>
         </div>
       </div>
     );
