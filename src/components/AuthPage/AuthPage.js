@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import {authorize} from '../../actions/auth';
-import {getToken, getIsAuthorized} from '../../reducers/auth';
+import {getIsAuthorized} from '../../reducers/auth';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import './AuthPage.css';
@@ -28,9 +28,9 @@ export class AuthPage extends PureComponent {
   render() {
     const {value} = this.state;
 
-    const {token} = this.props;
+    const {isAuthorized} = this.props;
 
-    if (token !== null) return <Redirect to="/" />;
+    if (isAuthorized) return <Redirect to="/" />;
 
     return (
       <div className="container">
@@ -56,7 +56,6 @@ export class AuthPage extends PureComponent {
 }
 
 const mapStateToProps = store => ({
-  token: getToken(store),
   isAuthorized: getIsAuthorized(store)
 });
 

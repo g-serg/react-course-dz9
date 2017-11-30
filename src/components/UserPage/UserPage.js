@@ -1,6 +1,4 @@
 import React, {PureComponent} from 'react';
-import Spinner from 'react-svg-spinner';
-import Followers from '../Followers';
 import {fetchUserRequest} from '../../actions/users';
 import {
   getIsFetching,
@@ -8,6 +6,9 @@ import {
   getData,
   getError
 } from '../../reducers/users';
+import Spinner from 'react-svg-spinner';
+import Followers from '../Followers';
+import Logout from '../Logout';
 import {connect} from 'react-redux';
 import './UserPage.css';
 
@@ -24,24 +25,13 @@ export class UserPage extends PureComponent {
     if (this.props.match.params.name !== nextProps.match.params.name) {
       const {fetchUserRequest} = this.props;
       const {name} = nextProps.match.params;
+
       fetchUserRequest(name);
     }
   }
 
-  render() {
-    const {isFetching, data, error, match} = this.props;
-
-    if (isFetching)
-      return (
-        <div className="user_page">
-          <Spinner size="64px" color="fuchsia" gap={5} />
-        </div>
-      );
-
-    if (error) return <p style={{color: 'red'}}>Ошибка! {error}</p>;
-
-    if (!isFetching && !data) return <p>User not found</p>;
-
+  renderUserPage = () => {
+    const {data, match} = this.props;
     const {avatar_url, followers, public_repos} = data;
     const login = match && match.params.name;
 
@@ -58,6 +48,28 @@ export class UserPage extends PureComponent {
           </div>
         </div>
         <Followers login={login} />
+      </div>
+    );
+  };
+
+  render() {
+    const {isFetching, data, error} = this.props;
+
+    if (isFetching)
+      return (
+        <div className="user_container">
+          <Spinner size="64px" color="fuchsia" gap={5} />
+        </div>
+      );
+
+    if (error) return <p style={{color: 'red'}}>Ошибка! {error}</p>;
+
+    if (!isFetching && !data) return <p>User not found</p>;
+
+    return (
+      <div className="user_container">
+        <Logout />
+        {this.renderUserPage()}
       </div>
     );
   }

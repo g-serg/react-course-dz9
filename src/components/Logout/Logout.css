@@ -1,0 +1,8 @@
+.logout {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100%;
+}
+.logout button {
+  margin: 5px;
+}
