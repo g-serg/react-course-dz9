@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 describe('Component Follower', () => {
   const props = {
     img: 'img_url',
-    login: 'user_login'
+    login: 'user_login',
   };
   const wrapper = shallow(<Follower {...props} />);
 
@@ -16,7 +16,7 @@ describe('Component Follower', () => {
         wrapper
           .find('.follower_item>.follower_item__avatar>img')
           .at(0)
-          .props()['src']
+          .props().src,
       ).toEqual(props.img);
     });
 
@@ -25,7 +25,7 @@ describe('Component Follower', () => {
         wrapper
           .find(Link)
           .at(0)
-          .props()['to']
+          .props().to,
       ).toEqual('/user/' + props.login);
     });
 
@@ -34,7 +34,7 @@ describe('Component Follower', () => {
         wrapper
           .find('.follower_item>.follower_item__url h3')
           .at(0)
-          .text()
+          .text(),
       ).toEqual(props.login);
     });
   });
