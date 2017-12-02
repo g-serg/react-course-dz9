@@ -1,5 +1,8 @@
-.logout {
+.network_error {
   width: 400px;
   margin: 50px auto 20px;
   text-align: center;
+}
+.network_error p {
+  color: red;
 }

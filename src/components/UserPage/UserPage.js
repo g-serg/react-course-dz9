@@ -1,14 +1,8 @@
 import React, {PureComponent} from 'react';
 import {fetchUserRequest} from '../../actions/users';
-import {
-  getIsFetching,
-  getIsFetched,
-  getData,
-  getError
-} from '../../reducers/users';
+import {getIsFetching, getIsFetched, getData, getError} from '../../reducers/users';
 import Spinner from 'react-svg-spinner';
 import Followers from '../Followers';
-import Logout from '../Logout';
 import {connect} from 'react-redux';
 import './UserPage.css';
 
@@ -66,12 +60,7 @@ export class UserPage extends PureComponent {
 
     if (!isFetching && !data) return <p>User not found</p>;
 
-    return (
-      <div className="user_container">
-        <Logout />
-        {this.renderUserPage()}
-      </div>
-    );
+    return <div className="user_container">{this.renderUserPage()}</div>;
   }
 }
 
@@ -79,11 +68,11 @@ const mapStateToProps = store => ({
   isFetching: getIsFetching(store),
   isFetched: getIsFetched(store),
   data: getData(store),
-  error: getError(store)
+  error: getError(store),
 });
 
 const mapDispatchToProps = {
-  fetchUserRequest
+  fetchUserRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);
