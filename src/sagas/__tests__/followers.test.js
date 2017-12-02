@@ -5,23 +5,29 @@ import {getUserFollowers} from '../../api';
 
 describe('Saga Followers:', () => {
   const action = {payload: 'test_login'};
-  const followers = [{login: 'test', id: '1'}];
+  const response = {data: [{login: 'test', id: '1'}]};
   const error = new Error('test error');
 
-  it('call getUserFollowers', () => {
+  it('1. call getUserFollowers', () => {
+    const value = call(getUserFollowers, action.payload);
+
     const saga = fetchFollowersSaga(action);
-    expect(saga.next().value).toEqual(call(getUserFollowers, 'test_login'));
+    expect(saga.next().value).toEqual(value);
   });
 
-  it('dispatch action fetchFollowersSuccess with followers from call on success call', () => {
+  it('2. dispatch action fetchFollowersSuccess with response.data from call on success call', () => {
+    const value = put(fetchFollowersSuccess(response.data));
+
     const saga = fetchFollowersSaga(action);
     saga.next();
-    expect(saga.next(followers).value).toEqual(put(fetchFollowersSuccess(followers)));
+    expect(saga.next(response).value).toEqual(value);
   });
 
-  it('dispatch action fetchFollowersFailure with followers from call on success call', () => {
+  it('3. dispatch action fetchFollowersFailure with followers from call on success call', () => {
+    const value = put(fetchFollowersFailure(error));
+
     const saga = fetchFollowersSaga(action);
     saga.next();
-    expect(saga.throw(error).value).toEqual(put(fetchFollowersFailure(error)));
+    expect(saga.throw(error).value).toEqual(value);
   });
 });
