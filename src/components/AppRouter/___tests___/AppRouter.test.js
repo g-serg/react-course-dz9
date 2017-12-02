@@ -22,13 +22,13 @@ describe('component AppRouter', () => {
     ).toEqual('/user/me');
   });
 
-  it('2a. should exists PrivateRoute component - second with path="/user/:name"', () => {
+  it('2a. should exists PrivateRoute component - second with path="/user/:user"', () => {
     expect(
       wrapper
         .find(PrivateRoute)
         .at(1)
         .props().path,
-    ).toEqual('/user/:name');
+    ).toEqual('/user/:user');
   });
 
   it('3. should exists Route with path=/login', () => {

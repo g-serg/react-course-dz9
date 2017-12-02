@@ -20,7 +20,7 @@ export class AppRouter extends Component {
         {isNetworkErrorPresent && <NetworkError />}
         <Switch>
           <PrivateRoute path="/user/me" component={UserPage} />
-          <PrivateRoute path="/user/:name" component={UserPage} />
+          <PrivateRoute path="/user/:user" component={UserPage} />
           <Route path="/login" exact component={AuthPage} />
           <Redirect to="/user/dex157" />
         </Switch>

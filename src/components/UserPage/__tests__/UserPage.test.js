@@ -6,6 +6,15 @@ import Followers from '../../Followers';
 
 describe('Component UserPage', () => {
   const wrapper = shallow(<UserPage />);
+  const data = {
+    avatar_url: 'user_url',
+    followers: 3,
+  };
+  const match = {
+    params: {
+      user: 'user_login',
+    },
+  };
 
   describe('check presence of instance methods', () => {
     it('1. have componentDidMount method', () => {
@@ -18,44 +27,43 @@ describe('Component UserPage', () => {
   });
 
   describe('render', () => {
-    const data = {
-      avatar_url: 'user_url',
-      followers: 3
-    };
-    const match = {
-      params: {
-        name: 'user_login'
-      }
-    };
-
     it('1. should be Spinner on isFetching', () => {
       const wrapper = shallow(<UserPage isFetching />);
       expect(wrapper.find(Spinner)).toHaveLength(1);
     });
 
-    it('2. should be p{User not found} on !isFetching & !data', () => {
-      const wrapper = shallow(<UserPage isFetching={false} />);
-      expect(wrapper.find('p').contains('User not found')).toBeTruthy();
+    it('2. should be p "User {login} not founded !" on isFetched & !data', () => {
+      const value = `User ${match.params.user} not founded !`;
+
+      const wrapper = shallow(<UserPage isFetched match={match} />);
+      expect(
+        wrapper
+          .find('p')
+          .at(0)
+          .text(),
+      ).toEqual(value);
     });
 
     it('3. should be .user_info__avatar>img.src equal {data.avatar_url}', () => {
       const wrapper = shallow(<UserPage data={data} />);
+
       expect(
         wrapper
           .find('.user_info__avatar>img')
           .at(0)
-          .props()['src']
+          .props().src,
       ).toEqual(data.avatar_url);
     });
 
-    it('4. should be .user_info__login>h3 equal {match.param.name}', () => {
+    it('4. should be .user_info__login>h3 equal {match.param.user}', () => {
       const wrapper = shallow(<UserPage data={data} match={match} />);
+
       expect(
         wrapper
           .find('.user_info__login>h3')
           .at(0)
-          .text()
-      ).toEqual(match.params.name);
+          .text(),
+      ).toEqual(match.params.user);
     });
 
     it('5. should be Followers will be equal props {data.followers}', () => {
@@ -64,7 +72,7 @@ describe('Component UserPage', () => {
         wrapper
           .find('.user_info__login>p')
           .at(0)
-          .text()
+          .text(),
       ).toEqual('Followers: 3');
     });
 
@@ -74,8 +82,8 @@ describe('Component UserPage', () => {
         wrapper
           .find(Followers)
           .at(0)
-          .props()['login']
-      ).toEqual(match.params.name);
+          .props().login,
+      ).toEqual(match.params.user);
     });
   });
 });

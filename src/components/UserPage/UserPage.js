@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {fetchUserRequest} from '../../actions/users';
+import {fetchUserRequest, fetchTokenOwnerRequest} from '../../actions/users';
 import {getIsFetching, getIsFetched, getData, getError} from '../../reducers/users';
 import Spinner from 'react-svg-spinner';
 import Followers from '../Followers';
@@ -8,26 +8,32 @@ import './UserPage.css';
 
 export class UserPage extends PureComponent {
   componentDidMount() {
-    const {fetchUserRequest, match} = this.props;
+    const {fetchUserRequest, fetchTokenOwnerRequest, match} = this.props;
 
     if (fetchUserRequest && match) {
-      fetchUserRequest(match.params.name);
+      const name = match.params.user;
+
+      if (name) {
+        fetchUserRequest(name);
+      } else {
+        fetchTokenOwnerRequest(name);
+      }
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.match.params.name !== nextProps.match.params.name) {
+    if (this.props.match.params.user !== nextProps.match.params.user) {
       const {fetchUserRequest} = this.props;
-      const {name} = nextProps.match.params;
+      const {user} = nextProps.match.params;
 
-      fetchUserRequest(name);
+      fetchUserRequest(user);
     }
   }
 
   renderUserPage = () => {
     const {data, match} = this.props;
     const {avatar_url, followers, public_repos} = data;
-    const login = match && match.params.name;
+    const login = (match && match.params.user) || (data && data.login);
 
     return (
       <div className="user_page">
@@ -47,7 +53,8 @@ export class UserPage extends PureComponent {
   };
 
   render() {
-    const {isFetching, data, error} = this.props;
+    const {isFetching, isFetched, data, match} = this.props;
+    const login = (match && match.params.user) || (data && data.login);
 
     if (isFetching)
       return (
@@ -56,9 +63,9 @@ export class UserPage extends PureComponent {
         </div>
       );
 
-    if (error) return <p style={{color: 'red'}}>Ошибка! {error}</p>;
+    if (isFetched && !data) return <p>User {login} not founded !</p>;
 
-    if (!isFetching && !data) return <p>User not found</p>;
+    if (!data) return <div />;
 
     return <div className="user_container">{this.renderUserPage()}</div>;
   }
@@ -73,6 +80,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = {
   fetchUserRequest,
+  fetchTokenOwnerRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

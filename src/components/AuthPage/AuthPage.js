@@ -30,16 +30,15 @@ export class AuthPage extends PureComponent {
 
     const {isAuthorized} = this.props;
 
-    if (isAuthorized) return <Redirect to="/" />;
+    if (isAuthorized) return <Redirect to="/user/me" />;
 
     return (
       <div className="container">
         <div className="auth_page">
           <p>
-            Получить токен нужно на своей странице github, перейдите по
-            <a href="https://github.com/settings/tokens">адресу</a> и создать
-            себе токен. Запишите куда нибудь токен, так как после создания
-            доступ к нему будет только один раз.
+            Получить токен нужно на своей странице github, перейдите по{' '}
+            <a href="https://github.com/settings/tokens">адресу</a> и создать себе токен. Запишите
+            куда нибудь токен, так как после создания доступ к нему будет только один раз.
           </p>
           <input
             className="auth_page__input"
@@ -56,11 +55,11 @@ export class AuthPage extends PureComponent {
 }
 
 const mapStateToProps = store => ({
-  isAuthorized: getIsAuthorized(store)
+  isAuthorized: getIsAuthorized(store),
 });
 
 const mapDispatchToProps = {
-  authorize
+  authorize,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthPage);
