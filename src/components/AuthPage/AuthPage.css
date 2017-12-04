@@ -1,0 +1,16 @@
+.container {
+  width: 100%;
+  height: 100%;
+  padding-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth_page {
+  width: 300px;
+}
+
+.auth_page__input {
+  width: 100%;
+}

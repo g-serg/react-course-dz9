@@ -1,21 +1,23 @@
 import React, {PureComponent} from 'react';
 import {Route, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {getToken} from '../../reducers/auth';
+import {getIsAuthorized} from '../../reducers/auth';
 
 class PrivateRoute extends PureComponent {
   render() {
-    const {token, component: Component, ...rest} = this.props;
+    const {isAuthorized, component: Component, ...rest} = this.props;
 
     return (
       <Route
         {...rest}
-        render={props => (token ? <Component {...props} /> : <Redirect to="/login" />)}
+        render={props =>
+          isAuthorized ? <Component {...props} /> : <Redirect to="/login" />
+        }
       />
     );
   }
 }
 
-export default connect(state => ({
-  token: getToken(state),
+export default connect(store => ({
+  isAuthorized: getIsAuthorized(store)
 }))(PrivateRoute);

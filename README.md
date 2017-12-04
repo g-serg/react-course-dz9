@@ -1,4 +1,4 @@
-# Home project: facegit
+# Home project: facegit [![Build Status](https://travis-ci.org/g-serg/react-course-dz9.svg?branch=dz9)](https://travis-ci.org/g-serg/react-course-dz9)
 
 [Пример первой части](http://5a19a183a6188f20378c66f1.brave-golick-d6a52f.netlify.com).
 
